@@ -8,18 +8,18 @@ void turret(int x1, int y1, int r1, int x2, int y2, int r2) {
 	double distance = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
 	int dif = abs(r1 - r2);
 	int sum = r1 + r2;
-	// Áß½ÉÀÌ °°À»¶§
+	// ì¤‘ì‹¬ì´ ê°™ì„ë•Œ
 	if (distance == 0) {
 		if (dif == 0)
 			printf("-1\n");
 		else
 			printf("0\n");
 	}
-	// µÎÁ¡ÀÌ ¸¸³¯¶§
+	// ë‘ì ì´ ë§Œë‚ ë•Œ
 	else if (dif < distance && distance < sum) {
 		printf("2\n");
 	}
-	// ¿ÜÁ¢ & ³»Á¢
+	// ì™¸ì ‘ & ë‚´ì ‘
 	else if (dif == distance || sum == distance) {
 		printf("1\n");
 	}
