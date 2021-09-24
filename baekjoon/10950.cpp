@@ -16,6 +16,5 @@ int main(void) {
 		cout << A + B << '\n';
 	}
 
-
 	return 0;
 }
