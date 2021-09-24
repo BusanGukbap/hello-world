@@ -10,9 +10,8 @@ bool visited[1000][10];
 vector<int> ans;
 
 void dfs(int day) {
-	if (day == N) {
+	if (day == N)
 		return;
-	}
 	
 	int cnt = 0;
 	for (int i = 1; i <= a[day][0]; i++) {
