@@ -9,7 +9,7 @@ typedef struct direction {
 	int y;
 } Dir;
 
-//              °¡·Î   ´ë°¢¼±   ¼¼·Î
+//              ê°€ë¡œ   ëŒ€ê°ì„    ì„¸ë¡œ
 Dir dir[3] = { {0, 1}, {1, 1}, {1, 0} };
 
 int result;
@@ -18,7 +18,7 @@ int map[17][17];
 
 
 
-// pipe_dir 0->°¡·Î, 1->´ë°¢¼±, 2->¼¼·Î
+// pipe_dir 0->ê°€ë¡œ, 1->ëŒ€ê°ì„ , 2->ì„¸ë¡œ
 void func(int x, int y, int pipe_dir) {
 	if (x == N - 1 && y == N - 1) {
 		result++;
@@ -35,17 +35,17 @@ void func(int x, int y, int pipe_dir) {
 		x_temp = x + dir[i].x;
 		y_temp = y + dir[i].y;
 
-		// ¹üÀ§ÃÊ°ú
+		// ë²”ìœ„ì´ˆê³¼
 		if (x_temp >= N || y_temp >= N) {
 			continue;
 		}
 		
-		// º® È®ÀÎ
+		// ë²½ í™•ì¸
 		else if (map[x_temp][y_temp] == 1) {
 			continue;
 		}
 		
-		// ´ë°¢¼± º® È®ÀÎ
+		// ëŒ€ê°ì„  ë²½ í™•ì¸
 		else if (i == 1 && (map[x][y + 1] == 1 || map[x + 1][y] == 1)) {
 			continue;
 		}
