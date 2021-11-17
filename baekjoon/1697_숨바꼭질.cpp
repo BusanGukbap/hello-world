@@ -7,50 +7,37 @@ using namespace std;
 int N, K;
 bool Visit[200000];
 
-void bfs() {
-	queue <int> Q;
-	queue <int> searching;
-	int cnt = 0;
-	bool Find = false;
-	Q.push(N);
+int bfs() {
+	queue<pair<int, int>> Q;
+	int res = 0;
+	Q.push({ N, 0 });
 	Visit[N] = true;
 
-	while (1) {
-		while (!Q.empty()) {
-			searching.push(Q.front());
-			Q.pop();
-		}
+	while (!Q.empty()) {
+		int now = Q.front().first;
+		int depth = Q.front().second;
+		Q.pop();
 
-		while (!searching.empty()) {
-			int now = searching.front();
-			searching.pop();
-
-			if (now == K) {
-				Find = true;
-				break;
-			}
-
-			if (now*2 <= 100000 && !Visit[now * 2]) {
-				Q.push(now * 2);
-				Visit[now * 2] = true;
-			}
-			if (now+1 <= 100000 && !Visit[now + 1]) {
-				Q.push(now + 1);
-				Visit[now + 1] = true;
-			}
-			if (!Visit[now - 1] && now-1 >= 0) {
-				Q.push(now - 1);
-				Visit[now - 1];
-			}
-		}
-
-		if (Find) {
+		if (now == K) {
+			res = depth;
 			break;
 		}
 
-		cnt++;
+		if (!Visit[now * 2] && now * 2 <= 100000) {
+			Q.push({ now * 2, depth + 1 });
+			Visit[now * 2] = true;
+		}
+		if (!Visit[now + 1] && now + 1 <= 100000) {
+			Q.push({ now + 1, depth + 1 });
+			Visit[now + 1] = true;
+		}
+		if (!Visit[now - 1] && now - 1 >= 0) {
+			Q.push({ now - 1, depth + 1 });
+			Visit[now - 1] = true;
+		}
 	}
-	cout << cnt;
+
+	return res;
 }
 
 int main(void) {
@@ -59,7 +46,7 @@ int main(void) {
 	cout.tie(0);
 
 	cin >> N >> K;
-	bfs();
+	cout << bfs();
 
 	return 0;
 }
