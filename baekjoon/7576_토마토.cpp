@@ -1,75 +1,86 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <bits/stdc++.h>
 
 using namespace std;
 
-int M, N;
+int N, M;
+int box[1001][1001];
+int unripe_tomato;
+queue <pair<int, int>> tomato;
 
-int tomato;
-int box[1000][1000];
-queue<int> qx;
-queue<int> qy;
 int dx[] = { 1, -1, 0, 0 };
 int dy[] = { 0, 0, 1, -1 };
 
-void change(int x, int y) {
-	for (int dir = 0; dir < 4; dir++) {
-		if (x + dx[dir] >= 0 && x + dx[dir] < N && y + dy[dir] >= 0 && y + dy[dir] < M && box[x + dx[dir]][y + dy[dir]] == 0) {
-			box[x + dx[dir]][y + dy[dir]] = box[x][y] + 1;
-			qx.push(x + dx[dir]);
-			qy.push(y + dy[dir]);
-			tomato--;
+void input() {
+	cin >> M >> N;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++){
+			cin >> box[i][j];
+			if (box[i][j] == 1)
+				tomato.push({ i, j });
+			else if (box[i][j] == 0)
+				unripe_tomato++;
 		}
 	}
 }
 
-int func() {
-	int maxx = 0;
+bool out_of_bound(int x, int y) {
+	if (x < 0 || y < 0 || y >= M || x >= N)
+		return true;
+	return false;
+}
 
-	while (!qx.empty()) {
-		int x = qx.front();
-		int y = qy.front();
-		change(x, y);
-		qx.pop();
-		qy.pop();
+void bfs() {
+	while (!tomato.empty()) {
+		int x = tomato.front().first;
+		int y = tomato.front().second;
+		tomato.pop();
+
+		for (int dir = 0; dir < 4; dir++) {
+			int ny = y + dy[dir];
+			int nx = x + dx[dir];
+
+			if (!out_of_bound(nx, ny)) {
+				if (box[nx][ny] == 0) {
+					tomato.push({ nx, ny });
+					box[nx][ny] = box[x][y] + 1;
+				}
+			}
+		}
 	}
+}
 
-	if (tomato != 0)
-		return -1;
+int solution() {
+	int ans = 0;
+	
+	input();
 
+	// 익을 토마토가 없음
+	if (unripe_tomato == 0) {
+		return 0;
+	}
+	
+	// bfs탐색으로 박스에 숫자 채우기
+	bfs();
+
+	// 끝나고 확인
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (box[i][j] > maxx)
-				maxx = box[i][j];
+			if (box[i][j] == 0) {
+				return -1;
+			}
+			if (box[i][j] > ans)
+				ans = box[i][j];
 		}
 	}
 
-	return maxx-1;
+	return ans-1;
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 
-	cin >> M >> N;
-
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < M; j++) {
-			cin >> box[i][j];
-			if (box[i][j] == 0)
-				tomato++;
-			if (box[i][j] == 1) {
-				qx.push(i);
-				qy.push(j);
-			}
-		}
-	}
-
-	if (tomato == 0)
-		cout << 0;
-	else
-		cout << func();
+	cout << solution();
 
 	return 0;
 }
