@@ -1,13 +1,13 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <bits/stdc++.h>
 
 using namespace std;
 
+typedef long long ll;
+
 int M, N;
-long long int arr[1000000];
-long long int ans;
-long long int maxx = 0;
+ll arr[1000000];
+ll ans = 0;
+ll maxx = 0;
 
 int main() {
 	ios_base::sync_with_stdio(0);
@@ -20,14 +20,14 @@ int main() {
 		if (maxx < arr[i])
 			maxx = arr[i];
 	}
-	
-	long long int start = 0, end = maxx;
+
+	ll start = 1, end = maxx;
 	while (start <= end) {
-		long long int mid = (start + end) / 2;
+		ll mid = (start + end) / 2;
 		if (mid == 0) {
 			break;
 		}
-		long long int cnt = 0;
+		ll cnt = 0;
 
 		for (int i = 0; i < N; i++) {
 			cnt += arr[i] / mid;
@@ -44,7 +44,7 @@ int main() {
 
 	}
 
-	cout << ans;
+	cout << ans << '\n';
 
 	return 0;
 }
